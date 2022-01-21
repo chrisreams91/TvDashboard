@@ -1,26 +1,21 @@
 import React from 'react';
-import {Text, View} from 'react-native';
-import TVTabBar from './TVTabBar';
+import { Text, View } from 'react-native';
+
+import TVTabBar from './src/components/TVTabBar';
+import VideoPlayer from './src/screens/VideoPlayer';
+import Weather from './src/components/Weather';
 
 const App = () => {
   const tabs = [
     {
       key: 'Test1',
       name: 'fuck',
-      value: (
-        <View>
-          <Text>fuck</Text>
-        </View>
-      ),
+      value: <Weather />,
     },
     {
       key: 'Test2',
       name: 'shit',
-      value: (
-        <View>
-          <Text>shit</Text>
-        </View>
-      ),
+      value: <VideoPlayer />,
     },
     {
       key: 'Test3',
@@ -33,7 +28,7 @@ const App = () => {
     },
   ];
 
-  return <TVTabBar tabs={tabs} defaultTabKey="slideShow" />;
+  return <TVTabBar tabs={tabs} defaultTabKey="Test2" />;
 };
 
 export default App;

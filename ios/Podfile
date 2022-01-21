@@ -16,6 +16,7 @@ target 'TvDashboard' do
     :hermes_enabled => false
   )
 
+
   target 'TvDashboardTests' do
     inherit! :complete
     # Pods for testing

@@ -1,18 +1,18 @@
-import React, {useState} from 'react';
-import {TabBarIOS} from 'react-native';
+import React, { useState } from 'react';
+import { TabBarIOS } from 'react-native';
 
 // type Tab = {
 //   key: string,
 //   name: string,
-//   value: Object,
+//   value: Component,
 // };
 
 // type Props = {
-// barColor: string,
-// textColor: string,
-// selectedTextColor: string,
-// tabs: Tab[],
-// defaultTabKey?: string,
+//    barColor: string,
+//    textColor: string,
+//    selectedTextColor: string,
+//    tabs: Tab[],
+//    defaultTabKey?: string,
 // };
 
 const TVTabBar = (props) => {
