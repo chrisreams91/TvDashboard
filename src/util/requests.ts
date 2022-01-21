@@ -26,7 +26,5 @@ export const fetchWeather = async (): Promise<WeatherResponse> => {
   const result = await axios.get(
     'https://api.weather.gov/gridpoints/LSX/84,70/forecast',
   );
-
-  console.log(result);
   return result.data;
 };

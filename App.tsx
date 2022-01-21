@@ -1,9 +1,9 @@
 import React from 'react';
-import { Text, View } from 'react-native';
 
 import TVTabBar from './src/components/TVTabBar';
 import VideoPlayer from './src/screens/VideoPlayer';
 import Weather from './src/components/Weather';
+import Calender from './src/components/Calender';
 
 const App = () => {
   const tabs = [
@@ -20,15 +20,11 @@ const App = () => {
     {
       key: 'Test3',
       name: 'bitch',
-      value: (
-        <View>
-          <Text>bitch</Text>
-        </View>
-      ),
+      value: <Calender />,
     },
   ];
 
-  return <TVTabBar tabs={tabs} defaultTabKey="Test2" />;
+  return <TVTabBar tabs={tabs} defaultTabKey="Test3" />;
 };
 
 export default App;

@@ -1,19 +1,22 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import Video from 'react-native-video';
+import Weather from '../components/Weather';
 
 const VideoPlayer = (): JSX.Element => {
   const videoError = () => null;
   const onBuffer = () => null;
 
   return (
-    <Video
-      source={require('../../assets/DB_D011_C009_4K_SDR_HEVC.mov')}
-      onBuffer={onBuffer}
-      onError={videoError}
-      style={styles.fullScreen}
-      controls={true}
-    />
+    <>
+      <Video
+        source={require('../../assets/DB_D011_C009_4K_SDR_HEVC.mov')}
+        onBuffer={onBuffer}
+        onError={videoError}
+        style={styles.fullScreen}
+      />
+      <Weather />
+    </>
   );
 };
 
