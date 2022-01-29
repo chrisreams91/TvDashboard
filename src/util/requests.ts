@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { apiKey, calendarId } from '../../secrets.json';
+import moment from 'moment';
 
 export interface Day {
   number: 1;
@@ -30,15 +31,39 @@ export const fetchWeather = async (): Promise<WeatherResponse> => {
   return result.data;
 };
 
-export interface CalendarEvent {
+export interface CalendarEventResponse {
   summary: string;
-  start: { dateTime: string };
-  end: { dateTime: string };
+  start: { dateTime: string; date: string };
+  end: { dateTime: string; date: string };
+}
+
+export interface CalendarEvent {
+  name: string;
+  date: string;
+  start: string | undefined;
+  end: string | undefined;
 }
 
 export const fetchCalendarEvents = async (): Promise<CalendarEvent[]> => {
   const response = await axios.get(
     `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?key=${apiKey}`,
   );
-  return response.data.items;
+
+  const { items } = response.data;
+
+  const transformed = items.map((item: CalendarEventResponse) => {
+    const date = item.start.dateTime?.split('T')[0] || item.start.date;
+    const start =
+      item.start.dateTime && moment(item.start.dateTime).format('hA');
+    const end = item.end.dateTime && moment(item.end.dateTime).format('hA');
+
+    return {
+      name: item.summary,
+      date,
+      start,
+      end,
+    };
+  });
+
+  return transformed;
 };
