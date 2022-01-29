@@ -1,30 +1,42 @@
 import React from 'react';
-
-import TVTabBar from './src/components/TVTabBar';
-import VideoPlayer from './src/screens/VideoPlayer';
-import Weather from './src/components/Weather';
+import { StyleSheet, View } from 'react-native';
+import Video from 'react-native-video';
 import Calender from './src/components/Calender';
+import Weather from './src/components/Weather';
 
-const App = () => {
-  const tabs = [
-    {
-      key: 'Test1',
-      name: 'fuck',
-      value: <Weather />,
-    },
-    {
-      key: 'Test2',
-      name: 'shit',
-      value: <VideoPlayer />,
-    },
-    {
-      key: 'Test3',
-      name: 'bitch',
-      value: <Calender />,
-    },
-  ];
+const App = (): JSX.Element => {
+  const videoError = () => null;
+  const onBuffer = () => null;
 
-  return <TVTabBar tabs={tabs} defaultTabKey="Test3" />;
+  return (
+    <>
+      <Video
+        source={require('./assets/DB_D011_C009_4K_SDR_HEVC.mov')}
+        onBuffer={onBuffer}
+        onError={videoError}
+        style={styles.fullScreen}
+      />
+      <View style={styles.overlay}>
+        <Weather />
+        <Calender />
+      </View>
+    </>
+  );
 };
 
 export default App;
+
+const styles = StyleSheet.create({
+  fullScreen: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  },
+  overlay: {
+    justifyContent: 'space-between',
+    flex: 1,
+    flexDirection: 'row',
+  },
+});

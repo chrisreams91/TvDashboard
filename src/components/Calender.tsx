@@ -41,6 +41,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   eventText: {
+    fontSize: 25,
     padding: 5,
+    color: 'white',
   },
 });

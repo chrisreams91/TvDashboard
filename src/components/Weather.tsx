@@ -19,13 +19,13 @@ const Weather = (): JSX.Element => {
     <View style={styles.container}>
       {weather.map((day) => (
         <View key={day.startTime} style={styles.dayContainer}>
-          <Text style={styles.dayText}>{day.name}</Text>
           <Image
             source={{
               uri: day.icon,
             }}
             style={styles.weatherImage}
           />
+          <Text style={styles.dayText}>{day.name}</Text>
           <Text style={styles.weatherText}>
             {day.temperature} - {day.shortForecast}
           </Text>
@@ -46,14 +46,20 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   dayText: {
+    paddingTop: 10,
+
+    alignSelf: 'center',
     color: 'white',
     paddingBottom: 10,
+    fontSize: 20,
   },
   weatherText: {
+    alignSelf: 'center',
     color: 'white',
-    paddingTop: 10,
+    fontSize: 20,
   },
   weatherImage: {
+    alignSelf: 'center',
     padding: 20,
     width: 50,
     height: 50,
