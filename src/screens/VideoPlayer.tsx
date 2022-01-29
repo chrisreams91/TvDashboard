@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import Video from 'react-native-video';
+import Calender from '../components/Calender';
 import Weather from '../components/Weather';
 
 const VideoPlayer = (): JSX.Element => {
@@ -16,6 +17,7 @@ const VideoPlayer = (): JSX.Element => {
         style={styles.fullScreen}
       />
       <Weather />
+      <Calender />
     </>
   );
 };

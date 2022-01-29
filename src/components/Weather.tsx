@@ -9,7 +9,7 @@ const Weather = (): JSX.Element => {
   useEffect(() => {
     const fetchData = async () => {
       const weatherData = await fetchWeather();
-      const firstThree = _.take(weatherData.properties.periods, 3);
+      const firstThree = _.take(weatherData.properties.periods, 2);
       setWeather(firstThree);
     };
     fetchData();
