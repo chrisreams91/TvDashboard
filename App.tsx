@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Video from 'react-native-video';
 import Calender from './src/components/Calender';
@@ -20,64 +20,97 @@ interface RemoteEvent {
   eventType: EVENT;
 }
 
-const one = require('./assets/DB_D011_C009_4K_SDR_HEVC.mov');
-const two = require('./assets/LA_A006_C008_4K_SDR_HEVC.mov');
+const one = require('./assets/DB_D001_C001_4K_SDR_HEVC.mov');
+const two = require('./assets/DB_D001_C005_4K_SDR_HEVC.mov');
+const three = require('./assets/DB_D011_C009_4K_SDR_HEVC.mov');
+const four = require('./assets/HK_B005_C011_4K_SDR_HEVC.mov');
+const five = require('./assets/LA_A005_C009_4K_SDR_HEVC.mov');
+const six = require('./assets/LA_A006_C008_4K_SDR_HEVC.mov');
+const seven = require('./assets/LA_A009_C009_4K_SDR_HEVC.mov');
+const eight = require('./assets/LW_L001_C006_4K_SDR_HEVC.mov');
 
 const App = (): JSX.Element => {
-  useEffect(() => {
-    // fs read dir or somthing
-    const getFileNames = async () => {
-      setVideos([one, two]);
-    };
-    getFileNames();
-  }, []);
-
+  const [paused, setPaused] = useState(false);
+  const [showOverLay, setShowOverlay] = useState(true);
   const [currentVideo, setCurrentVideo] = useState(0);
-  const [videos, setVideos] = useState([one, two]);
-  const [isPaused, setIsPaused] = useState(false);
+  const [videos, setVideos] = useState([
+    one,
+    two,
+    three,
+    four,
+    five,
+    six,
+    seven,
+    eight,
+  ]);
+  const [videoPlayerInUse, setVideoPlayerInUser] = useState(0);
 
-  const myTVEventHandler = (event: RemoteEvent) => {
+  const TVEventHandler = (event: RemoteEvent) => {
     switch (event.eventType) {
       case EVENT.Select: {
-        setIsPaused(!isPaused);
+        setPaused(!paused);
+        // Add pausing later after dual video player figured out
         break;
       }
       case EVENT.Left: {
-        setCurrentVideo(0);
+        const newVideo =
+          currentVideo === 0 ? videos.length - 1 : currentVideo - 1;
+
+        refs[currentVideo].seek(0);
+        setCurrentVideo(newVideo);
+        setVideoPlayerInUser(newVideo);
+        setPaused(false);
         break;
       }
       case EVENT.Right: {
-        setCurrentVideo(1);
+        const newVideo =
+          currentVideo === videos.length - 1 ? 0 : currentVideo + 1;
+
+        refs[currentVideo].seek(0);
+        setCurrentVideo(newVideo);
+        setVideoPlayerInUser(newVideo);
+        setPaused(false);
+        break;
+      }
+      case EVENT.Up: {
+        setShowOverlay(false);
+        break;
+      }
+      case EVENT.Down: {
+        setShowOverlay(true);
         break;
       }
     }
-    console.log(event);
   };
-  useTVEventHandler(myTVEventHandler);
+
+  useTVEventHandler(TVEventHandler);
 
   const onEnd = () => {
     setCurrentVideo(currentVideo === videos.length - 1 ? 0 : currentVideo + 1);
-    console.log(' new current video : ', currentVideo);
   };
 
-  const onLoad = (x: any) => {
-    console.log(x);
-  };
-
+  const refs: Video[] = [];
   return (
     <>
-      <Video
-        rate={2}
-        onLoad={onLoad}
-        source={videos[currentVideo]}
-        paused={isPaused}
-        onEnd={onEnd}
-        style={styles.fullScreen}
-      />
-      <View style={styles.overlay}>
-        <Weather />
-        <Calender />
-      </View>
+      {videos.map((video: any, index: number) => {
+        return (
+          <Video
+            key={index}
+            ref={(ref) => ref && refs.push(ref)}
+            rate={2}
+            source={video}
+            paused={videoPlayerInUse !== index || paused}
+            onEnd={onEnd}
+            style={videoPlayerInUse === index && styles.fullScreen}
+          />
+        );
+      })}
+      {showOverLay && (
+        <View style={styles.overlay}>
+          <Weather />
+          <Calender />
+        </View>
+      )}
     </>
   );
 };
