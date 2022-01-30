@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { fetchCalendarEvents, CalendarEvent } from '../util/requests';
+import moment from 'moment';
 
 const Calender = (): JSX.Element => {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
@@ -8,12 +9,11 @@ const Calender = (): JSX.Element => {
   useEffect(() => {
     const getEvents = async () => {
       const calendarEvents = await fetchCalendarEvents();
-      const today = new Date().toISOString().split('T')[0];
-
+      const today = moment().utc(true).format().split('T')[0];
       const todaysEvents = calendarEvents.filter(
         (event) => event.date === today,
       );
-      console.log('todaysEvents ', todaysEvents);
+
       setEvents(todaysEvents);
     };
     getEvents();
