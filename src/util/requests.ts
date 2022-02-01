@@ -3,19 +3,18 @@ import { apiKey, calendarId } from '../../secrets.json';
 import moment from 'moment';
 
 export interface Day {
-  number: 1;
   name: string;
-  startTime: string;
-  endTime: string;
-  isDaytime: boolean;
+  startTime?: string;
+  endTime?: string;
+  isDaytime?: boolean;
   temperature: number;
-  temperatureUnit: string;
-  temperatureTrend: null;
-  windSpeed: string;
-  windDirection: string;
+  temperatureUnit?: string;
+  temperatureTrend?: null;
+  windSpeed?: string;
+  windDirection?: string;
   icon: string;
   shortForecast: string;
-  detailedForecast: string;
+  detailedForecast?: string;
 }
 
 export interface WeatherResponse {
@@ -24,11 +23,29 @@ export interface WeatherResponse {
   };
 }
 
+const weatherFailure = {
+  properties: {
+    periods: [
+      {
+        name: 'api failure',
+        temperature: 0,
+        icon: 'api failure',
+        shortForecast: 'api failure',
+      },
+    ],
+  },
+};
+
 export const fetchWeather = async (): Promise<WeatherResponse> => {
-  const result = await axios.get(
-    'https://api.weather.gov/gridpoints/LSX/84,70/forecast',
-  );
-  return result.data;
+  try {
+    const result = await axios.get(
+      'https://api.weather.gov/gridpoints/LSX/84,70/forecast',
+    );
+    return result.data;
+  } catch (error) {
+    console.log(error);
+    return weatherFailure;
+  }
 };
 
 export interface CalendarEventResponse {

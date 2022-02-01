@@ -1,19 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, Image, StyleSheet } from 'react-native';
 import { fetchWeather, Day } from '../util/requests';
+import { useInterval } from '../util/hooks';
 import * as _ from 'lodash';
+
+const ONE_MINUTE = 60000;
 
 const Weather = (): JSX.Element => {
   const [weather, setWeather] = useState<Day[]>([]);
 
+  const fetchData = async () => {
+    const weatherData = await fetchWeather();
+    const firstThree = _.take(weatherData.properties.periods, 2);
+    setWeather(firstThree);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const weatherData = await fetchWeather();
-      const firstThree = _.take(weatherData.properties.periods, 2);
-      setWeather(firstThree);
-    };
     fetchData();
   }, []);
+
+  useInterval(() => {
+    fetchData();
+  }, ONE_MINUTE * 30);
 
   return (
     <View style={styles.container}>
@@ -26,9 +34,11 @@ const Weather = (): JSX.Element => {
             style={styles.weatherImage}
           />
           <Text style={styles.dayText}>{day.name}</Text>
-          <Text style={styles.weatherText}>
-            {day.temperature} - {day.shortForecast}
-          </Text>
+          {day.temperature && (
+            <Text style={styles.weatherText}>
+              {day.temperature} - {day.shortForecast}
+            </Text>
+          )}
         </View>
       ))}
     </View>
