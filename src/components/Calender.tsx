@@ -41,12 +41,12 @@ const Calender = (): JSX.Element => {
 export default Calender;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: { paddingRight: 8 },
   eventContainer: {
     flexDirection: 'row',
   },
   eventText: {
-    fontSize: 25,
+    fontSize: 30,
     padding: 5,
     color: 'white',
   },
